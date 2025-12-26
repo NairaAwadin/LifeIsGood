@@ -1,0 +1,88 @@
+DF N/A + TYPE SUMMARY REPORT
+────────────────────────────────────────────────────────────────────────────────────────────────────
+• Rows          : 2,458
+• Columns       : 4
+
+1) GLOBAL N/A COUNTS (sorted)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                  na_count  na_pct
+bedroomsQuantity       194    7.89
+surfaceArea              4    0.16
+roomsQuantity            2    0.08
+propertyType             0    0.00
+
+2) PER-COLUMN DETAILS
+────────────────────────────────────────────────────────────────────────────────────────────────────
+[01] propertyType
+
+├─ dtype         : object
+├─ NA            : 0 (0.00%)
+├─ type          : categorical/bool
+├─ unique        : 1 (non-NA)
+│  ├─ categories (all)
+│  │  └─ flat
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[02] surfaceArea
+
+├─ dtype         : float64
+├─ NA            : 4 (0.16%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 9.24 / 387.6
+│  │  ├─ mean      : 69.06709046454769
+│  │  ├─ median    : 54.0
+│  │  └─ q25/q75   : 38.0 / 83.0
+│
+├─ sample rows where [surfaceArea] is NA (first 5)
+│  propertyType  surfaceArea  roomsQuantity  bedroomsQuantity
+│          flat          NaN            1.0               NaN
+│          flat          NaN            2.0               1.0
+│          flat          NaN            1.0               NaN
+│          flat          NaN            3.0               NaN
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[03] roomsQuantity
+
+├─ dtype         : float64
+├─ NA            : 2 (0.08%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 1.0 / 10.0
+│  │  ├─ mean      : 2.6901465798045603
+│  │  ├─ median    : 2.0
+│  │  └─ q25/q75   : 2.0 / 3.0
+│
+├─ sample rows where [roomsQuantity] is NA (first 5)
+│  propertyType  surfaceArea  roomsQuantity  bedroomsQuantity
+│          flat         48.0            NaN               1.0
+│          flat         24.0            NaN               NaN
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[04] bedroomsQuantity
+
+├─ dtype         : float64
+├─ NA            : 194 (7.89%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 0.0 / 14.0
+│  │  ├─ mean      : 1.6068904593639577
+│  │  ├─ median    : 1.0
+│  │  └─ q25/q75   : 1.0 / 2.0
+│
+├─ sample rows where [bedroomsQuantity] is NA (first 5)
+│  propertyType  surfaceArea  roomsQuantity  bedroomsQuantity
+│          flat        27.98            1.0               NaN
+│          flat        29.03            1.0               NaN
+│          flat        37.29            1.0               NaN
+│          flat        34.23            1.0               NaN
+│          flat        32.00            1.0               NaN
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────

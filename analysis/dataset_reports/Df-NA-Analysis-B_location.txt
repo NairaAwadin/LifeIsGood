@@ -1,0 +1,284 @@
+DF N/A + TYPE SUMMARY REPORT
+────────────────────────────────────────────────────────────────────────────────────────────────────
+• Rows          : 2,458
+• Columns       : 14
+
+1) GLOBAL N/A COUNTS (sorted)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                            na_count  na_pct
+blurInfo.radius                  826    33.6
+city                               0     0.0
+postalCodeForSearchFilters         0     0.0
+departmentCode                     0     0.0
+district.code_insee                0     0.0
+postalCode                         0     0.0
+district.insee_code                0     0.0
+district.name                      0     0.0
+addressKnown                       0     0.0
+district.libelle                   0     0.0
+blurInfo.centroid.lon              0     0.0
+blurInfo.centroid.lat              0     0.0
+blurInfo.bbox                      0     0.0
+blurInfo.type                      0     0.0
+
+2) PER-COLUMN DETAILS
+────────────────────────────────────────────────────────────────────────────────────────────────────
+[01] city
+
+├─ dtype         : object
+├─ NA            : 0 (0.00%)
+├─ type          : categorical/bool
+├─ unique        : 21 (non-NA)
+│  ├─ categories (all)
+│  │  ├─ Paris 15e
+│  │  ├─ Paris 8e
+│  │  ├─ Paris 14e
+│  │  ├─ Paris 4e
+│  │  ├─ Paris 16e
+│  │  ├─ Paris 19e
+│  │  ├─ Paris 11e
+│  │  ├─ Paris 18e
+│  │  ├─ Paris 2e
+│  │  ├─ Paris 10e
+│  │  ├─ Paris 17e
+│  │  ├─ Paris 9e
+│  │  ├─ Paris 5e
+│  │  ├─ Paris 20e
+│  │  ├─ Paris 3e
+│  │  ├─ Paris 13e
+│  │  ├─ Paris 12e
+│  │  ├─ Paris 6e
+│  │  ├─ Paris 7e
+│  │  ├─ Paris 1er
+│  │  └─ Paris
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[02] postalCode
+
+├─ dtype         : int64
+├─ NA            : 0 (0.00%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 75001 / 92300
+│  │  ├─ mean      : 75055.79332790888
+│  │  ├─ median    : 75014.0
+│  │  └─ q25/q75   : 75008.0 / 75016.0
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[03] postalCodeForSearchFilters
+
+├─ dtype         : int64
+├─ NA            : 0 (0.00%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 75000 / 75116
+│  │  ├─ mean      : 75013.78722538649
+│  │  ├─ median    : 75014.0
+│  │  └─ q25/q75   : 75008.0 / 75016.0
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[04] departmentCode
+
+├─ dtype         : int64
+├─ NA            : 0 (0.00%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 75 / 75
+│  │  ├─ mean      : 75.0
+│  │  ├─ median    : 75.0
+│  │  └─ q25/q75   : 75.0 / 75.0
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[05] district.code_insee
+
+├─ dtype         : int64
+├─ NA            : 0 (0.00%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 75101 / 75120
+│  │  ├─ mean      : 75112.54515866558
+│  │  ├─ median    : 75114.0
+│  │  └─ q25/q75   : 75108.0 / 75116.0
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[06] district.insee_code
+
+├─ dtype         : int64
+├─ NA            : 0 (0.00%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 75101 / 75120
+│  │  ├─ mean      : 75112.54515866558
+│  │  ├─ median    : 75114.0
+│  │  └─ q25/q75   : 75108.0 / 75116.0
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[07] district.name
+
+├─ dtype         : object
+├─ NA            : 0 (0.00%)
+├─ type          : categorical/bool
+├─ unique        : 138 (non-NA)
+│  ├─ value_counts (top 15)
+│  │  district.name
+│  │  Paris 19e Arrondissement                                         154
+│  │  Paris 14e Arrondissement                                         115
+│  │  Paris 16e Arrondissement - Dauphine                               79
+│  │  Paris 6e Arrondissement                                           77
+│  │  Paris 16e Arrondissement                                          77
+│  │  Paris 7e Arrondissement                                           76
+│  │  Paris 17e Arrondissement                                          76
+│  │  Paris 16e Arrondissement - Auteuil-Nord - Jasmin - Mirabeau       74
+│  │  Paris 16e Arrondissement - Chaillot                               62
+│  │  Paris 16e Arrondissement - Porte de Saint-Cloud - Auteuil-Sud     57
+│  │  Paris 7e Arrondissement - Champ de Mars                           45
+│  │  Paris 12e Arrondissement - Vallée de Fecamp                       42
+│  │  Paris 16e Arrondissement - Muette-Nord - Trocadéro                42
+│  │  Paris 13e Arrondissement                                          40
+│  │  Paris 1er Arrondissement                                          40
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[08] district.libelle
+
+├─ dtype         : object
+├─ NA            : 0 (0.00%)
+├─ type          : categorical/bool
+├─ unique        : 134 (non-NA)
+│  ├─ value_counts (top 15)
+│  │  district.libelle
+│  │  Paris 19                              154
+│  │  Paris 14                              115
+│  │  Dauphine                               79
+│  │  Paris 6                                77
+│  │  Paris 16                               77
+│  │  Paris 7                                76
+│  │  Paris 17                               76
+│  │  Auteuil-Nord - Jasmin - Mirabeau       74
+│  │  Chaillot                               62
+│  │  Porte de Saint-Cloud - Auteuil-Sud     57
+│  │  Champ de Mars                          45
+│  │  Vallée de Fecamp                       42
+│  │  Muette-Nord - Trocadéro                42
+│  │  Paris 1                                40
+│  │  Paris 13                               40
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[09] addressKnown
+
+├─ dtype         : bool
+├─ NA            : 0 (0.00%)
+├─ type          : categorical/bool
+├─ unique        : 2 (non-NA)
+│  ├─ categories (all)
+│  │  ├─ True
+│  │  └─ False
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[10] blurInfo.centroid.lon
+
+├─ dtype         : float64
+├─ NA            : 0 (0.00%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 2.254284606137338 / 2.409774718249589
+│  │  ├─ mean      : 2.3283390243223
+│  │  ├─ median    : 2.326959081
+│  │  └─ q25/q75   : 2.2989465571875747 / 2.355582909
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[11] blurInfo.centroid.lat
+
+├─ dtype         : float64
+├─ NA            : 0 (0.00%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 48.81948261546118 / 48.89779700429841
+│  │  ├─ mean      : 48.859909050381084
+│  │  ├─ median    : 48.85845486852533
+│  │  └─ q25/q75   : 48.84444298187065 / 48.87445571817048
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[12] blurInfo.radius
+
+├─ dtype         : float64
+├─ NA            : 826 (33.60%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 50.0 / 1000.0
+│  │  ├─ mean      : 66.54411764705883
+│  │  ├─ median    : 50.0
+│  │  └─ q25/q75   : 50.0 / 50.0
+│
+├─ sample rows where [blurInfo.radius] is NA (first 5)
+│       city  postalCode  postalCodeForSearchFilters  departmentCode  district.code_insee  district.insee_code                                            district.name              district.libelle  addressKnown  blurInfo.centroid.lon  blurInfo.centroid.lat  blurInfo.radius                                                                  blurInfo.bbox blurInfo.type
+│  Paris 14e       75014                       75014              75                75114                75114             Paris 14e Arrondissement - Mouton - Duvernet             Mouton - Duvernet          True               2.325512              48.836362              NaN [2.325511999999999, 48.83636199999999, 2.3255120000000007, 48.836362000000015]         exact
+│   Paris 5e       75005                       75005              75                75105                75105             Paris 5e Arrondissement - Jardin des Plantes            Jardin des Plantes          True               2.353825              48.839162              NaN   [2.353824999999999, 48.83916199999998, 2.353825000000001, 48.83916200000002]         exact
+│  Paris 10e       75010                       75010              75                75110                75110 Paris 10e Arrondissement - Goncourt - Canal Saint-Martin Goncourt - Canal Saint-Martin          True               2.366917              48.871934              NaN                     [2.366917, 48.87193399999999, 2.366917, 48.87193400000002]         exact
+│  Paris 15e       75015                       75015              75                75115                75115          Paris 15e Arrondissement - Alleray - Procession          Alleray - Procession          True               2.307959              48.834724              NaN [2.307958999999999, 48.83472399999999, 2.3079590000000008, 48.834724000000016]         exact
+│  Paris 15e       75015                       75015              75                75115                75115    Paris 15e Arrondissement - Saint-Lambert - Convention    Saint-Lambert - Convention          True               2.296001              48.840258              NaN  [2.296000999999999, 48.840257999999984, 2.296001000000001, 48.84025800000001]         exact
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[13] blurInfo.bbox
+
+├─ dtype         : object
+├─ NA            : 0 (0.00%)
+├─ type          : categorical/bool
+├─ unique        : 1,496 (non-NA)
+│  ├─ value_counts (top 15)
+│  │  blurInfo.bbox
+│  │  [2.364686167, 48.87206219, 2.410836486, 48.902155987]                              154
+│  │  [2.301317929, 48.81576618, 2.344628853, 48.843606664]                              115
+│  │  [2.31657276, 48.839654716, 2.344590315, 48.859350168]                               77
+│  │  [2.224122013, 48.833898872, 2.301591017, 48.880280913]                              77
+│  │  [2.279801122, 48.873779378, 2.330182506, 48.90102811]                               76
+│  │  [2.289823895, 48.845933617, 2.333266512, 48.863778176]                              76
+│  │  [2.320901831, 48.854051893, 2.350947872, 48.869928962]                              40
+│  │  [2.34114303, 48.815575472, 2.390255903, 48.844929862]                               40
+│  │  [2.262959956, 48.82512518, 2.324691733, 48.858229363]                               39
+│  │  [2.364429518, 48.81701227, 2.469760219, 48.853255416]                               38
+│  │  [2.3971106615886493, 48.83422093266186, 2.3984754082576343, 48.83511925059687]      38
+│  │  [2.363817766, 48.84809778, 2.399268251, 48.87206219]                                38
+│  │  [2.2615120955158723, 48.855145483847465, 2.2628774077304685, 48.85604380178326]     38
+│  │  [2.327989089, 48.86340658, 2.354260949, 48.871981006]                               38
+│  │  [2.3186399080630578, 48.824841591970525, 2.3200043989120376, 48.82573990990507]      5
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[14] blurInfo.type
+
+├─ dtype         : object
+├─ NA            : 0 (0.00%)
+├─ type          : categorical/bool
+├─ unique        : 3 (non-NA)
+│  ├─ categories (all)
+│  │  ├─ disk
+│  │  ├─ exact
+│  │  └─ cityOrArrondissement
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────

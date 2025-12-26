@@ -1,0 +1,28 @@
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+# core
+numpy==1.26.4
+pandas==2.3.3
+requests==2.32.5
+psycopg2-binary==2.9.11
+scikit-learn==1.5.2
+
+# plotting
+matplotlib==3.10.8
+seaborn==0.13.2
+plotly==5.24.1
+
+# Hugging Face / CamemBERT
+torch==2.3.1+cu121
+torchvision==0.18.1+cu121
+torchaudio==2.3.1+cu121
+transformers==4.46.2
+sentencepiece==0.2.0
+accelerate==0.34.2
+
+# catbooster for predict property price
+catboost
+
+# app
+streamlit==1.40.2
+jupyterlab==4.3.6

@@ -1,0 +1,174 @@
+DF N/A + TYPE SUMMARY REPORT
+────────────────────────────────────────────────────────────────────────────────────────────────────
+• Rows          : 2,458
+• Columns       : 8
+
+1) GLOBAL N/A COUNTS (sorted)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                     na_count  na_pct
+rentWithoutCharges       1065   43.33
+chargesMethod             771   31.37
+charges                   676   27.50
+pricePerSquareMeter        43    1.75
+price                      39    1.59
+surfaceArea                 4    0.16
+transactionType             0    0.00
+priceHasDecreased           0    0.00
+
+2) PER-COLUMN DETAILS
+────────────────────────────────────────────────────────────────────────────────────────────────────
+[01] transactionType
+
+├─ dtype         : object
+├─ NA            : 0 (0.00%)
+├─ type          : categorical/bool
+├─ unique        : 1 (non-NA)
+│  ├─ categories (all)
+│  │  └─ rent
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[02] price
+
+├─ dtype         : float64
+├─ NA            : 39 (1.59%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 450.0 / 35000.0
+│  │  ├─ mean      : 2897.462773873501
+│  │  ├─ median    : 2202.0
+│  │  └─ q25/q75   : 1359.5 / 3380.0
+│
+├─ sample rows where [price] is NA (first 5)
+│  transactionType  price  rentWithoutCharges  charges chargesMethod  surfaceArea  pricePerSquareMeter  priceHasDecreased
+│             rent    NaN                 NaN   2000.0       advance        241.0                  NaN              False
+│             rent    NaN                 NaN      NaN           NaN         35.0                  NaN              False
+│             rent    NaN                 NaN      NaN           NaN         35.0                  NaN              False
+│             rent    NaN                 NaN      NaN           NaN         35.0                  NaN              False
+│             rent    NaN                 NaN      NaN           NaN         35.0                  NaN              False
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[03] rentWithoutCharges
+
+├─ dtype         : float64
+├─ NA            : 1,065 (43.33%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 414.81 / 27000.0
+│  │  ├─ mean      : 2881.810667623833
+│  │  ├─ median    : 2106.0
+│  │  └─ q25/q75   : 1350.0 / 3300.0
+│
+├─ sample rows where [rentWithoutCharges] is NA (first 5)
+│  transactionType   price  rentWithoutCharges  charges chargesMethod  surfaceArea  pricePerSquareMeter  priceHasDecreased
+│             rent 1640.99                 NaN   108.11           NaN        53.24            30.822502              False
+│             rent 1490.00                 NaN      NaN           NaN        33.00            45.151515              False
+│             rent 1680.00                 NaN      NaN     flat-rate        45.00            37.333333              False
+│             rent 1940.00                 NaN      NaN     flat-rate        35.00            55.428571               True
+│             rent 1970.00                 NaN      NaN     flat-rate        55.00            35.818182               True
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[04] charges
+
+├─ dtype         : float64
+├─ NA            : 676 (27.50%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 0.0 / 3000.0
+│  │  ├─ mean      : 211.54787878787877
+│  │  ├─ median    : 150.0
+│  │  └─ q25/q75   : 100.0 / 250.0
+│
+├─ sample rows where [charges] is NA (first 5)
+│  transactionType   price  rentWithoutCharges  charges chargesMethod  surfaceArea  pricePerSquareMeter  priceHasDecreased
+│             rent  1771.0              1771.0      NaN       advance         45.0            39.355556              False
+│             rent 13000.0             13000.0      NaN       advance        130.0           100.000000              False
+│             rent  3800.0              3800.0      NaN       advance        102.0            37.254902              False
+│             rent   866.0               866.0      NaN       advance         17.0            50.941176               True
+│             rent  2120.0              2120.0      NaN       advance         56.0            37.857143               True
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[05] chargesMethod
+
+├─ dtype         : object
+├─ NA            : 771 (31.37%)
+├─ type          : categorical/bool
+├─ unique        : 3 (non-NA)
+│  ├─ categories (all)
+│  │  ├─ advance
+│  │  ├─ flat-rate
+│  │  └─ real
+│
+├─ sample rows where [chargesMethod] is NA (first 5)
+│  transactionType   price  rentWithoutCharges  charges chargesMethod  surfaceArea  pricePerSquareMeter  priceHasDecreased
+│             rent 1640.99                 NaN   108.11           NaN        53.24            30.822502              False
+│             rent 1490.00                 NaN      NaN           NaN        33.00            45.151515              False
+│             rent 1423.00                 NaN    40.00           NaN        38.19            37.261063              False
+│             rent 1027.00                 NaN   137.00           NaN        31.93            32.164109              False
+│             rent 1218.00                 NaN   140.00           NaN        31.73            38.386385              False
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[06] surfaceArea
+
+├─ dtype         : float64
+├─ NA            : 4 (0.16%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 9.24 / 387.6
+│  │  ├─ mean      : 69.06709046454769
+│  │  ├─ median    : 54.0
+│  │  └─ q25/q75   : 38.0 / 83.0
+│
+├─ sample rows where [surfaceArea] is NA (first 5)
+│  transactionType  price  rentWithoutCharges  charges chargesMethod  surfaceArea  pricePerSquareMeter  priceHasDecreased
+│             rent 1720.0                 NaN    220.0     flat-rate          NaN                  NaN              False
+│             rent 4625.0                 NaN      NaN     flat-rate          NaN                  NaN              False
+│             rent  850.0                 NaN    107.0           NaN          NaN                  NaN              False
+│             rent 3600.0              3200.0    400.0           NaN          NaN                  NaN              False
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[07] pricePerSquareMeter
+
+├─ dtype         : float64
+├─ NA            : 43 (1.75%)
+├─ type          : numeric
+│  ├─ stats
+│  │  ├─ min/max   : 15.930244755244756 / 292.6376811594203
+│  │  ├─ mean      : 42.46669597966113
+│  │  ├─ median    : 38.0
+│  │  └─ q25/q75   : 32.459057623005336 / 49.43391115926327
+│
+├─ sample rows where [pricePerSquareMeter] is NA (first 5)
+│  transactionType  price  rentWithoutCharges  charges chargesMethod  surfaceArea  pricePerSquareMeter  priceHasDecreased
+│             rent 1720.0                 NaN    220.0     flat-rate          NaN                  NaN              False
+│             rent 4625.0                 NaN      NaN     flat-rate          NaN                  NaN              False
+│             rent  850.0                 NaN    107.0           NaN          NaN                  NaN              False
+│             rent    NaN                 NaN   2000.0       advance        241.0                  NaN              False
+│             rent 3600.0              3200.0    400.0           NaN          NaN                  NaN              False
+└─ end sample
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[08] priceHasDecreased
+
+├─ dtype         : bool
+├─ NA            : 0 (0.00%)
+├─ type          : categorical/bool
+├─ unique        : 2 (non-NA)
+│  ├─ categories (all)
+│  │  ├─ False
+│  │  └─ True
+└─ sample rows: none
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
