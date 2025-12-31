@@ -14,7 +14,7 @@ import streamlit as st
 
 displayed_features = [
     "id",
-    "advertisedPrice",
+    "price",
     "pricePerSquareMeter",
     "city",
     "computedPostalCode",
@@ -38,6 +38,10 @@ def get_latest_ds(ds_root: Path) -> Path | None:
     for f in ds_root.iterdir():
         if f.is_file() and f.suffix.lower() == ".csv":
             candidates.append((f.stat().st_mtime, f))
+    if not candidates:
+        for f in ds_root.rglob("*.csv"):
+            if f.is_file():
+                candidates.append((f.stat().st_mtime, f))
     if not candidates:
         return None
     candidates.sort(reverse=True)
@@ -63,8 +67,8 @@ if "poi_coords" not in st.session_state:
     st.session_state.poi_coords = None
 
 
-st.set_page_config(page_title="Bienetre", layout="wide")
-st.title("Bienetre")
+st.set_page_config(page_title="Bienetre - Scrape", layout="wide")
+st.title("Bienetre - Scrape")
 
 left_col, right_col = st.columns([1, 1], gap="large")
 
@@ -111,7 +115,7 @@ with left_col:
 
     if scrape_submitted:
         if start_page > end_page:
-            st.error("Page de debut must be <= end page.")
+            st.error("La page de debut doit etre <= a la page de fin.")
         else:
             # Build Bienici API filter dict (only if enabled)
             user_filters = None
@@ -155,46 +159,43 @@ with left_col:
 
                 old_path = get_latest_ds(ds_root=save_listings_root)
                 old_df = pd.read_csv(old_path) if old_path is not None else pd.DataFrame()
-
-                save_df = old_df.copy()
+                if not old_df.empty:
+                    old_df = pl0.run_pipeline(df=old_df)
                 show_all = pd.DataFrame()
+                save_all = old_df.copy()
 
                 for page in range(int(start_page), int(end_page) + 1):
                     out = scrapeBi.scrape_page(
                         zoneIds=zone_ids,
                         page=page,
                         camembert_bundle=camembert_bundle,
-                        old_listings=save_df,
+                        old_listings=save_all,
                         filters=user_filters
                     )
 
                     page_show = out["show"]
+                    page_save = out["save"]
 
                     if page_show.empty:
                         status.write(f"Page {page} : aucune annonce, arret.")
                         break
+                    
 
                     page_show = pl0.run_pipeline(df=page_show)
-
+                    page_save = pl0.run_pipeline(df=page_save)
                     show_all = pd.concat([show_all, page_show], ignore_index=True)
                     show_all = show_all.drop_duplicates(subset=["id"], keep="last")
 
-                    if save_df is None or save_df.empty:
-                        save_df = page_show.copy()
+                    if save_all is None or save_all.empty:
+                        save_all = page_show.copy()
                     else:
-                        if "id" in save_df.columns:
-                            save_df = save_df.drop_duplicates(subset=["id"], keep="last")
-                            save_df = pd.concat(
-                                [save_df[~save_df["id"].isin(page_show["id"])], page_show],
-                                ignore_index=True,
-                            )
-                        else:
-                            save_df = pd.concat([save_df, page_show], ignore_index=True)
+                        save_all = pd.concat([save_all,page_save],ignore_index=True)
+                        save_all = save_all.drop_duplicates(subset=["id"], keep="last")
 
                     scraped_pages += 1
                     st.session_state.scrape_status = (
-                        f"Scraped page {page} ({len(page_show)} ads). "
-                        f"Total new ads shown: {len(show_all)}"
+                        f"Page {page} scrapee ({len(page_show)} annonces). "
+                        f"Total nouvelles annonces affichees : {len(show_all)}"
                     )
                     st.session_state.scrape_progress = scraped_pages / total_pages
                     st.session_state.scrape_results = show_all
@@ -202,24 +203,30 @@ with left_col:
                     status.write(st.session_state.scrape_status)
                     progress.progress(st.session_state.scrape_progress)
 
-                    cols_to_show = [c for c in displayed_features if c in show_all.columns]
-                    table.dataframe(show_all[cols_to_show], use_container_width=True)
+                    display_df = show_all.copy()
+                    if "falseLocation" in display_df.columns:
+                        display_df["falseLocation"] = display_df["falseLocation"].astype(str)
+                    cols_to_show = [c for c in displayed_features if c in display_df.columns]
+                    table.dataframe(display_df[cols_to_show], use_container_width=True)
 
-                scrapeBi.save_results(df=save_df, save_path=save_listings_path)
+                scrapeBi.save_results(df=save_all, save_path=save_listings_path)
 
                 if st.session_state.scrape_results is not None and len(st.session_state.scrape_results) > 0:
                     st.success(
-                        f"Done. Newly scraped (shown): {len(st.session_state.scrape_results)} | "
-                        f"Saved snapshot rows: {len(save_df)}"
+                        f"Termine. Nouvelles annonces (affichees) : {len(save_all) - len(old_df)} | "
+                        f"Annonces sauvegardees : {len(save_all)}"
                     )
                 else:
                     st.warning("Aucune annonce scrapee.")
 
     if st.session_state.scrape_results is not None:
-        cols_to_show = [c for c in displayed_features if c in st.session_state.scrape_results.columns]
+        display_df = st.session_state.scrape_results.copy()
+        if "falseLocation" in display_df.columns:
+            display_df["falseLocation"] = display_df["falseLocation"].astype(str)
+        cols_to_show = [c for c in displayed_features if c in display_df.columns]
         if cols_to_show:
             table.dataframe(
-                st.session_state.scrape_results[cols_to_show],
+                display_df[cols_to_show],
                 use_container_width=True,
             )
         if st.session_state.scrape_status:
@@ -311,4 +318,4 @@ with right_col:
                     with st.expander(f"{k} (count: {count})", expanded=False):
                         render_value(nearest)
             else:
-                st.info("No Categories de POI returned.")
+                st.info("Aucune categorie de POI renvoyee.")

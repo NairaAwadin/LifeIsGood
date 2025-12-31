@@ -1,8 +1,18 @@
 from __future__ import annotations
 from typing import Any, Optional, Dict, List
+#connect to postgres database, run sql, fetch results,...
 import psycopg2
+"""
+imports on top of psychpg2 :
+* RealDictCursor :
+Normal fetch from cursor return tuples like, this one return dict. 
+(ex : (id,name) -> {"id":1,"name":"stark"})
+* register_hstroe :
+Facilitate conversion between hstore type of postgres with dict in python.
+"""
 from psycopg2.extras import RealDictCursor, register_hstore
 import time
+#for constructing URL, turn " " to "+"
 from urllib.parse import quote_plus
 
 def google_maps_link(lat: float, lon: float, name: str | None = None) -> str:
@@ -13,9 +23,26 @@ def google_maps_link(lat: float, lon: float, name: str | None = None) -> str:
     return f"https://www.google.com/maps/search/?api=1&query={q}"
 
 def addr_from_tags(tags: Optional[dict]) -> Optional[str]:
+    """
+    Docstring for addr_from_tags
+    
+    :param tags: Description
+    :type tags: Optional[dict]
+    :return: Description
+    :rtype: str | None
+
+    from tags as dict like {
+    "hn": 1,
+    "street" : "street bolo",
+    "postcode" : "45222",
+    "city" : "not-paris"
+    }
+    to -> parts = ['1 street bolo', '45222 not-paris']
+    return -> "1 street bolo,45222 not-paris"
+    """
     if not tags:
         return None
-    hn = tags.get("addr:housenumber")
+    hn = tags.get("addr:housenumber")#get value from key in a dict
     street = tags.get("addr:street")
     postcode = tags.get("addr:postcode")
     city = tags.get("addr:city")
@@ -38,10 +65,10 @@ def connect_osm_db(
 ):
     conn = psycopg2.connect(host=host, port=port, dbname=dbname, user=user, password=password)
     try:
-        register_hstore(conn)  # ensures hstore columns arrive as dicts
+        register_hstore(conn)  # ensures hstore columns arrive as dicts (when fetching)
     except psycopg2.ProgrammingError:
         conn.rollback()
-    return conn
+    return conn #return live connection to postgres (ex : <connection object at 0x7f...; dsn: 'user=postgres dbname=osm host=localhost port=5432'>)
 
 
 _COUNT_POINTS_SQL = """
@@ -120,14 +147,14 @@ def enrich_location_offline(
 
     def count_points(where_clause: str) -> int:
         q = _COUNT_POINTS_SQL.format(where_clause=where_clause)
-        with conn.cursor(cursor_factory=RealDictCursor) as cur:
-            cur.execute(q, params)
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:#parameter indicate to return as dict
+            cur.execute(q, params)#second parameter serve similar purpose as .format() but it's psycopg2/postgres that handles the formating
             return int(cur.fetchone()["n"])
 
     def nearest_points(where_clause: str) -> List[Dict[str, Any]]:
         limit_clause = "" if top_n is None else "LIMIT %(limit)s"
         q = _NEAREST_POINTS_SQL.format(where_clause=where_clause, limit_clause=limit_clause)
-        exec_params = {**params}
+        exec_params = {**params}#same as = params.copy()
         if top_n is not None:
             exec_params["limit"] = top_n
         with conn.cursor(cursor_factory=RealDictCursor) as cur:

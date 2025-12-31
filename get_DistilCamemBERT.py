@@ -29,7 +29,11 @@ import pandas as pd
 import torch
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
-
+"""
+precision=TP/(TP+FP)
+recall=TP/(TP+FN)
+F1 = 2PR/(P+R) where P is precision and R is recall
+"""
 from transformers import (
     AutoTokenizer,
     AutoModelForSequenceClassification,
@@ -274,7 +278,7 @@ def train_model(
     metrics = trainer.evaluate() if val_ds is not None else None
     # threshold report on validation if available
     if val_ds is not None:
-        pred_out = trainer.predict(val_ds)
+        pred_out = trainer.predict(val_ds)      
         logits = pred_out.predictions
         probs = torch.softmax(torch.tensor(logits), dim=-1).numpy()[:, 1]
         labels = val_df["label"].values

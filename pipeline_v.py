@@ -107,6 +107,8 @@ def prepareX(X:pd.DataFrame,num_cols:list = NUM_COLS,
     for c in num_cols :
         X[c] = pd.to_numeric(X[c],errors="coerce")
     for c in cat_cols :
+        if c == "computedPostalCode" :
+            X[c] = pd.to_numeric(X[c], errors="coerce").astype("Int64").astype("string")
         X[c] = X[c].astype("string")
         X[c] = X[c].fillna("__UNKNOWN__")
     return X

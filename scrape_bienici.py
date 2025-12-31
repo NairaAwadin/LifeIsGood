@@ -473,6 +473,14 @@ def scrape_page(
     cleaned_ads = extract_ads(keys=set(FEATURE_INDEX.keys()), ads=ads)
     new = pd.DataFrame(cleaned_ads)
 
+    # normalize required text fields
+    if "description" in new.columns:
+        new["description"] = new["description"].fillna("")
+
+    # drop rows with no location info
+    if "postalCode" in new.columns and "city" in new.columns:
+        new = new.loc[~(new["postalCode"].isna() & new["city"].isna())].copy()
+
     # ensure cache col exists
     new["falseLocation"] = pd.NA
 

@@ -85,7 +85,6 @@ def get_computedPrice(df : pd.DataFrame) -> pd.DataFrame:
     both = p.notna() & s.notna()
     es = es.where(~both, np.maximum(p, s))
     #rename
-    out = out.rename(columns={"price": "advertisedPrice"})
     out["computedPrice"] = es
     return out
 
