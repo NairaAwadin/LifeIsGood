@@ -38,3 +38,7 @@ ressources/data_out/
 models/
 ressources/data/
 *.csv
+Enregistrement 2025-12-29 135835.mp4
+osm/*.osm.pbf
+archives/
+.ipynb_checkpoints/
