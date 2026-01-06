@@ -44,7 +44,7 @@ displayed_features = [
     "description",
     "falseLocation",
 ]
-tokenizer, model = camembert.load_model("models/location_flagger_v4")
+tokenizer, model = camembert.load_model("models/location_flagger_v5")
 camembert_bundle = {"model": model, "tokenizer": tokenizer}
 
 st.set_page_config(
