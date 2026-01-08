@@ -1,24 +1,3 @@
-"""
-============================================================
-"Orchestrateur" principal (prompt + boucle outils)
-============================================================
-
-Objectif conceptuel:
-- Construire un prompt structuré à partir de:
-  (1) recherche utilisateur (message courant)
-  (2) mémoire (contexte historique)
-  (3) instruction système (règles / comportement)
-- Appeler le modèle (LocalLLM.chat_raw) pour générer une réponse.
-- Gérer la boucle d'outils (tool-calling):
-  - si le modèle demande un outil => exécuter la fonction Python correspondante
-  - renvoyer le résultat au modèle via un message role="tool"
-  - relancer le modèle pour obtenir la réponse finale
-
-Fonctions utilisées dans ce fichier:
-- call_chatgpt_real_estate(...) :
-  Fonction centrale: prompt -> appel modèle -> (optionnel) outils -> réponse texte.
-"""
-
 from __future__ import annotations
 
 import json
@@ -93,12 +72,6 @@ Tache:
         {"role": "system", "content": instruction},
         {"role": "user", "content": user_payload},
     ]
-
-    # --------------------------------------------------------
-    # 3) Fonction interne: appel brut au modèle
-    # --------------------------------------------------------
-    # Concept: on centralise l'appel au modèle au même endroit, avec ou sans tools.
-    # Si tools est None => on n'envoie pas tool_choice (évite comportement imprévisible côté serveur).
     def _chat() -> Dict[str, Any]:
         return model.chat_raw(
             messages,
@@ -107,49 +80,25 @@ Tache:
             tools=tools,  # schéma: ce que le LLM a le droit d'appeler
             tool_choice=tool_choice if tools else None,
         )
-
-    # --------------------------------------------------------
-    # 4) Boucle d'outils: outil(s) -> résultat(s) -> réponse finale
-    # --------------------------------------------------------
-    # Concept: un LLM peut:
-    # - répondre directement (pas de tool_calls)
-    # - OU demander un/des outil(s) (tool_calls), puis répondre après avoir reçu les résultats.
     response = _chat()
 
     for _ in range(max_tool_rounds):
-        # tool_calls est généralement une liste (si dict OpenAI-like)
         tool_calls = response.get("tool_calls") if isinstance(response, dict) else None
-
-        # Cas 1: pas d'outil demandé => on sort avec le texte final
         if not tool_calls:
             return str(response.get("content", "")).strip()
-
-        # Cas 2: outils demandés mais pas de map => impossible d'exécuter => on sort du loop
         if not tool_map:
             break
-
-        # Important: ajouter le message assistant "tool_calls" à l'historique
-        # pour que le modèle "voit" qu'il a demandé un outil.
         messages.append(response)
-
-        # ----------------------------------------------------
-        # 5) Exécution des outils demandés
-        # ----------------------------------------------------
         for tool_call in tool_calls:
-            # tool_call contient une description de la fonction + arguments
             func = tool_call.get("function", {})
             name = func.get("name")
 
-            # arguments est souvent une string JSON (ex: '{"k": 3}')
             args_str = func.get("arguments", "") or "{}"
             try:
                 args = json.loads(args_str)  # conversion en dict Python
             except json.JSONDecodeError:
                 args = {}  # fallback si le modèle a produit un JSON invalide
 
-            # ------------------------------------------------
-            # 6) Choix + exécution de la fonction Python
-            # ------------------------------------------------
             if tool_map.get(name) is None:
                 tool_output = f"ERREUR: outil '{name}' introuvable."
             else:
@@ -157,12 +106,6 @@ Tache:
                     tool_output = tool_map[name](**args)  # exécute l'outil avec args
                 except Exception as exc:
                     tool_output = f"ERREUR: {exc}"
-
-            # ------------------------------------------------
-            # 7) Retour du résultat au modèle (role="tool")
-            # ------------------------------------------------
-            # Concept: "tool_call_id" relie la réponse au tool_call correspondant.
-            # Le LLM utilisera ce contenu dans la prochaine génération.
             messages.append(
                 {
                     "role": "tool",
@@ -171,12 +114,7 @@ Tache:
                 }
             )
 
-        # ----------------------------------------------------
-        # 8) On relance le modèle après les outils
-        # ----------------------------------------------------
         response = _chat()
-
-    # Fallback final si on sort de boucle (ex: pas de tool_map, trop d'itérations, etc.)
     return str(response.get("content", "")).strip()
 
 
@@ -256,7 +194,6 @@ Tache:
             return str(response.get("content", "")).strip()
         if not tool_map:
             break
-
         messages.append(response)
         for tool_call in tool_calls:
             func = tool_call.get("function", {})

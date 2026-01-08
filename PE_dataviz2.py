@@ -1,28 +1,3 @@
-"""
-Dataviz
-1/ Fonction qui :
-* affiche un graphique de distribution (histogramme + courbe normale) du prix/m² des appartements
-
-2/ Fonction qui :
-* prend une colonne numérique (dtype numérique)
-* X = valeurs de cette colonne, Y = prix
-* applique une régression linéaire pour ajuster une droite
-* affiche un nuage de points + la droite de régression
-* (optionnel) échantillonne si trop de points + filtre les valeurs extrêmes
-
-3/ Fonction qui :
-* reçoit un DataFrame avec les prix et les localisations
-* agrège les annonces par code postal (centroïde + prix/m² moyen/médian + nombre d'annonces)
-* affiche une carte interactive de la France :
-  - couleur = prix/m² (légende en dégradé)
-  - taille = densité d'annonces (légende en bulles)
-  - (optionnel) ajoute une couche "HeatMap" de densité brute (toutes les annonces)
-* un code postal en entrée n'est pas utilisé ici pour filtrer/zoomer (possible à ajouter)
-"""
-
-# =========================================================
-# Bibliothèques
-# =========================================================
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -33,9 +8,6 @@ from folium.plugins import HeatMap
 
 
 
-# =========================================================
-# 1/ Histogramme prix par m² appartements
-# =========================================================
 def plot_distribution_prix_m2_appartements(
     df: pd.DataFrame,
     postalCode: str | None = None,
@@ -160,9 +132,6 @@ def plot_scatter_regression(
     return fig, a, b, r2, len(g)
 
 
-# =========================================================
-# 3/ Carte : prix/m² en couleur + densité en taille + heatmap densité (option)
-# =========================================================
 def carte_prix_couleur_densite_taille(
     df: pd.DataFrame,
     postal_col: str = "postalCode",
@@ -175,7 +144,6 @@ def carte_prix_couleur_densite_taille(
     radius_min: int = 4,
     radius_max: int = 18,
 ):
-    # --- Nettoyage ---
     d = df[[postal_col, lat_col, lon_col, price_m2_col]].copy()
     d[postal_col] = pd.to_numeric(d[postal_col], errors="coerce")
     d[lat_col] = pd.to_numeric(d[lat_col], errors="coerce")
@@ -185,8 +153,6 @@ def carte_prix_couleur_densite_taille(
 
     if len(d) == 0:
         raise ValueError("Aucune donnée exploitable (NaN partout après nettoyage).")
-
-    # --- Agrégation par code postal ---
     f_agg = np.mean if agg_price == "mean" else np.median
     g = (
         d.groupby(postal_col)
@@ -216,18 +182,14 @@ def carte_prix_couleur_densite_taille(
     colormap = linear.plasma.scale(vmin, vmax)
     colormap.caption = f"{agg_price} {price_m2_col} (€/m² ou unité dataset)"
     colormap.add_to(m)
-
-    # --- Échelle de rayon (densité = n annonces) ---
     n_min, n_max = int(g["n"].min()), int(g["n"].max())
 
     def scale_radius(n):
-        # échelle sqrt pour éviter que les gros CP écrasent tout
         if n_max == n_min:
             return (radius_min + radius_max) / 2
         t = (np.sqrt(n) - np.sqrt(n_min)) / (np.sqrt(n_max) - np.sqrt(n_min))
         return radius_min + t * (radius_max - radius_min)
 
-    # --- Couche "CP agrégés" : couleur=prix/m², taille=n ---
     fg = folium.FeatureGroup(name="Prix/m² (couleur) + Densité (taille)", show=True)
 
     for _, row in g.iterrows():
@@ -255,14 +217,12 @@ def carte_prix_couleur_densite_taille(
 
     fg.add_to(m)
 
-    # --- Couche optionnelle : HeatMap de densité brute (toutes annonces) ---
     if add_density_heatmap:
         fg2 = folium.FeatureGroup(name="Densité brute (HeatMap)", show=False)
         heat_points = d[[lat_col, lon_col]].values.tolist()
         HeatMap(heat_points, radius=12, blur=18, min_opacity=0.25).add_to(fg2)
         fg2.add_to(m)
 
-    # --- Légende densité (nb annonces -> taille) ---
     ex = sorted(set([n_min, int(np.median(g["n"])), n_max]))
 
     legend_html = f"""

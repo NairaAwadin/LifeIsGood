@@ -70,7 +70,7 @@ def init_session_state() -> None:
 
 
 st.set_page_config(
-    page_title="Assistant immobilier",
+    page_title="LifeIsGood - Assistant immobilier",
     page_icon=":house:",
     layout="wide",
 )
@@ -128,7 +128,7 @@ if message_utilisateur:
                 reponse = gpt.call_chatgpt_real_estate_openai(
                     api_key=api_key,
                     recherche=recherche,
-                    memoire=st.session_state.chat_memory.text,
+                    memoire=st.session_state.chat_memory.text,  
                     instruction=SYSTEM_INSTRUCTION,
                     tools=TOOLS,
                     tool_map=TOOL_MAP,

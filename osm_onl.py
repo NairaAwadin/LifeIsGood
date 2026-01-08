@@ -7,9 +7,6 @@ import time
 import requests
 
 
-# -----------------------------
-# Small helpers (same as yours)
-# -----------------------------
 def google_maps_link(lat: float, lon: float, name: str | None = None) -> str:
     if name:
         q = quote_plus(f"{name} near {lat},{lon}")
@@ -46,9 +43,7 @@ def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return 2 * R * math.asin(math.sqrt(a))
 
 
-# -----------------------------
-# Overpass client
-# -----------------------------
+#Overpass client
 DEFAULT_OVERPASS_URL = "https://overpass-api.de/api/interpreter"  # main instance :contentReference[oaicite:1]{index=1}
 
 HEADERS = {
@@ -220,9 +215,6 @@ def elements_count_named(elements: List[Dict[str, Any]]) -> int:
     return n
 
 
-# -----------------------------
-# Public API (matches your shape)
-# -----------------------------
 def enrich_location_online(
     lat: float,
     lon: float,
